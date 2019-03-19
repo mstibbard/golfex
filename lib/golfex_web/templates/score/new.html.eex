@@ -1,0 +1,47 @@
+<div class="container">
+  <h1 class="title">Create Scores</h1>
+
+  <strong>Date: </strong><%= @game.date %><br>
+  <strong>Type: </strong><%= @game.type %>
+
+  <br><br>
+
+  <div class="columns">
+    <div class="column">
+      <div class="content">
+        <form accept-charset="UTF-8"
+              action="/manage/games/score/create_many"
+              method="post">
+          <input name="_csrf_token" type="hidden" value="<%= @csrf %>">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Player Name</th>
+                <th>Score</th>
+              </tr>
+            </thead>
+            <tbody>
+            
+              <%= for p <- @players do %>
+                <tr>
+                  <td><%= p.name %></td>
+                  <td>
+                    <input type="number" 
+                           id="<%= p.id %>"
+                           name="<%= p.id %>"
+                           value= 0>
+                  </td>
+                  <input type="hidden" name="game_id" value="<%= @game.id %>">
+                </tr>
+              <% end %>
+
+            </tbody>
+          </table>
+          <%= submit "Submit", class: "button is-primary" %>
+        </form>
+      </div>
+    </div>
+    <div class="column">
+    </div>
+  </div>
+</div>

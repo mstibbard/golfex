@@ -1,0 +1,35 @@
+<div class="container">
+  <h1 class="title">Listing Games</h1>
+
+  <%= link "New Game", to: Routes.game_path(@conn, :new) %><br>
+
+  <div class="content">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Type</th>
+          <th></th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+    <%= for game <- @games do %>
+        <tr>
+          <td><%= game.date %></td>
+          <td><%= game.type %></td>
+
+          <td><%= link "Show", to: Routes.game_path(@conn, :show, game) %></td>
+          <td><%= link "Edit", to: Routes.game_path(@conn, :edit, game) %></td>
+          <td>
+            <%= link "Delete", to: Routes.game_path(@conn, :delete, game),
+                               method: :delete, data: [confirm: "Are you sure? This will revert all handicaps accordingly."] %>
+          </td>
+        </tr>
+    <% end %>
+      </tbody>
+    </table>
+
+  </div>
+</div>

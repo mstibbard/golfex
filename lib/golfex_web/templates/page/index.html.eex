@@ -1,0 +1,15 @@
+<div class="container">
+  <%= if @current_user do %>
+    <section class="section">
+      <%= link "PRINT DIVISIONS", to: Routes.page_path(@conn, :print) %>
+      <br><br>
+
+      <%= render "divisions.html", conn: @conn, div1: @div1, div2: @div2, div3: @div3 %>
+
+  <% else %>
+    <section class="section">
+      <h1 class="title">Please log in</h1>
+      <p>Please sign in or create an account. You will then be able to manage the players, handicaps, and games.</p>
+    </section>
+  <% end %>
+</div>

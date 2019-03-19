@@ -1,0 +1,58 @@
+<div class="container">
+  <h1 class="title">Showing Player</h1>
+  <strong>Name:</strong> <%= @player.name %><br>
+  <strong>ID:</strong> <%= @player.id %><br>
+  <strong>Handicap:</strong> <%= @player.handicap %><br>
+  <strong>Active?</strong> <%= @player.active %><br>
+  <%= link "Edit Player Details", to: Routes.player_path(@conn, :edit, @player.id) %>
+  <br><br>
+
+  <div class="content">
+    <section>
+      <h1 class="title">Player's Scores</h1>
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Game Type</th>
+            <th>Score</th>
+            <th>Handicap</th>
+            <th>Handicap Change</th>
+            <th>New Handicap</th>
+            <th>Points</th>
+            <th></th>
+            <th></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+
+          <%= for score <- @scores do %>
+          <tr>
+            <td><%= score.game.date %></td>
+            <td><%= score.game.type %></td>
+            <td><%= score.score %></td>
+            <td><%= score.handicap %></td>
+            <td><%= score.handicap_change %></td>
+            <td><%= score.new_handicap %></td>
+            <td><%= score.points %></td>
+            <td><%= link "Show", to: Routes.score_path(@conn, :show, score) %></td>
+            <td><%= link "Edit", to: Routes.score_path(@conn, :edit, score) %></td>
+            <td>
+              <%= link "Delete",
+                  to: Routes.score_path(@conn, :delete, score),
+                  method: :delete,
+                  data: [
+                    confirm: "Are you sure? This will revert the handicap accordingly."
+                  ] %>
+            </td>
+          </tr>
+          <% end %>
+        </tbody>
+      </table>  
+    </section>
+  </div>
+
+  <%= link "Back", to: Routes.player_path(@conn, :index) %> 
+</div>

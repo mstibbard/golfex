@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="St George Ladies Golf Club handicap management">
+    <meta name="author" content="Matthew Stibbard">
+
+    <title>St George Ladies Golf Club</title>
+    <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/bulma.css") %>">
+    <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>">
+    <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/print.css") %>">
+  </head>
+
+  <body>
+    <header>
+      <%= render "_header.html", conn: @conn, current_user: @current_user%>
+    </header>
+
+    <%= if get_flash(@conn, :info) do %>
+      <div class="notification is-success">
+        <div class="container">
+          <%= get_flash(@conn, :info) %>
+        </div>
+      </div>
+    <% end %>
+
+    <%= if get_flash(@conn, :error) do %>
+      <div class="notification is-danger">
+        <div class="container">
+          <%= get_flash(@conn, :error) %>
+        </div>
+      </div>
+    <% end %>
+
+    <main role="main">
+      <%= render @view_module, @view_template, assigns %>
+    </main>
+
+  <script src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
+  <!-- JAVASCRIPT FOR HEADER -->
+  <script type="text/javascript">
+    (function() {
+      var burger = document.querySelector('.burger');
+      var nav = document.querySelector('#'+burger.dataset.target);
+
+      burger.addEventListener('click', function(){
+        burger.classList.toggle('is-active');
+        nav.classList.toggle('is-active');
+      });
+    })();
+  </script>
+  </body>
+</html>

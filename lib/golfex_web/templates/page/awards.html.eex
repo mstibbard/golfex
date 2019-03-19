@@ -1,0 +1,53 @@
+<div class="container">
+  <h1 class="title">Awards</h1>
+
+  <section class="section">
+    <strong>Showing:</strong> 01-01-<%= @year %> to 31-12-<%= @year %>
+  </section>
+
+  <div class="columns is-8 is-variable">
+
+    <div class="column">
+      <h3 class="title is-5">Attendance Points</h3>
+
+      <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+        <thead>
+          <tr class="has-background-dark">
+            <th class="has-text-white">Name</th>
+            <th class="has-text-white">Points</th>
+          </tr>
+        </thead>
+        <tbody>
+        <%= for player <- @attendance do %>
+          <tr>
+            <td><%= player.name %></td>
+            <td><%= player.points %></td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </div><!-- column -->
+
+    <div class="column">
+      <h3 class="title is-5">Stableford Award</h3>
+
+      <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+        <thead>
+          <tr class="has-background-dark">
+            <th class="has-text-white">Name</th>
+            <th class="has-text-white">Aggregate Score</th>
+          </tr>
+        </thead>
+        <tbody>
+          <%= for player <- @stableford do %>
+          <tr>
+            <td><%= player.name %></td>
+            <td><%= player.stableford %></td>
+          </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div><!-- column -->
+
+  </div><!--- columns -->
+</div><!--- container -->

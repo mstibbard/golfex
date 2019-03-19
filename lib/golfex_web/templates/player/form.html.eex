@@ -1,0 +1,30 @@
+<%= form_for @changeset, @action, fn f -> %>
+  <%= if @changeset.action do %>
+    <div class="alert alert-danger">
+      <p>Something went wrong! Please check errors below.</p>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <label class="label">Player Name</label>
+    <div class="control">
+      <%= text_input f, :name, placeholder: "Name" %>
+      <%= error_tag f, :name %>
+    </div>
+  </div>
+  <div class="field">
+    <label class="label">Handicap</label>
+    <div class="control">
+      <%= number_input f, :handicap, placeholder: 0.00, step: 0.1 %>
+      <%= error_tag f, :handicap %>
+    </div>
+  </div>
+  <div class="field">
+    <label class="label">Active?</label>
+    <div class="control">
+      <%= checkbox f, :active, value: :true %>
+      <%= error_tag f, :active %> 
+    </div>
+  </div>
+  <%= submit "Submit", class: "button is-primary" %>
+<% end %>

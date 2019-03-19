@@ -1,0 +1,9 @@
+<div class="container">
+  <h1 class="title">Edit Score</h1>
+
+  <%= render "full_form.html", Map.put(assigns, :action,
+                            Routes.score_path(@conn, :update, @score)) %>
+
+  <span><%= link "Back", to: Routes.score_path(@conn, :show, @score) %></span>
+</div>
+

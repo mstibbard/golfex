@@ -1,0 +1,38 @@
+<div class="container">
+  <h1 class="title">Show Score</h1>
+
+  <ul>
+
+    <li>
+      <strong>Player:</strong>
+      <%= @player.name %>
+    </li>
+
+    <li>
+      <strong>Score:</strong>
+      <%= @score.score %>
+    </li>
+
+    <li>
+      <strong>Handicap for this game:</strong>
+      <%= @score.handicap %>
+    </li>
+
+    <li>
+      <strong>Change to handicap from this game:</strong>
+      <%= @score.handicap_change %>
+    </li>
+
+    <li>
+      <strong>Points:</strong>
+      <%= @score.points %>
+    </li>
+
+  </ul><br>
+
+  <%= link "Edit", to: Routes.score_path(@conn, :edit, @score) %>
+
+  <br><br>
+
+  <%= link "Back", to: Routes.game_path(@conn, :show, @score.game_id) %>
+</div>

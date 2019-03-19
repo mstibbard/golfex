@@ -1,0 +1,11 @@
+@import "../node_modules/bulma/sass/utilities/initial-variables";
+@import "../node_modules/bulma/sass/utilities/functions";
+
+$navbar-height: 3.25rem;
+
+$notification-radius: 1px;
+$notification-padding: 0.75rem 0.75rem 0.75rem 1rem;
+
+$section-padding: 1.5rem 0.75rem;
+
+@import "../node_modules/bulma/bulma";

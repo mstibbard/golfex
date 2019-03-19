@@ -1,0 +1,45 @@
+<div class="navbar is-link">
+  <div class="container">
+    <div class="navbar-brand">
+      <%= link to: Routes.page_path(@conn, :index), class: "navbar-item" do %>
+        <img src="<%= Routes.static_path(@conn, "/images/sgl-logo-white.png") %>" width="178">
+      <% end %>
+      <div class="navbar-burger burger" data-target="navMenu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+
+    <div id="navMenu" class="navbar-menu">
+      <div class="navbar-start">
+        <%= if @current_user do %>
+          <%= link "Divisions", to: Routes.page_path(@conn, :index), class: "navbar-item" %>
+          <%= link "Players", to: Routes.player_path(@conn, :index), class: "navbar-item" %>
+          <%= link "Games", to: Routes.game_path(@conn, :index), class: "navbar-item" %>
+          <%= link "Awards", to: Routes.page_path(@conn, :awards), class: "navbar-item" %>
+        <% end %>
+      </div>
+
+      <div class="navbar-item">
+        <div class="navbar-end">
+          <%= if @current_user do %>
+            <div class="navbar-item">
+              Welcome, <%= @current_user.username %>
+            </div>
+            <%= link "Sign out",
+                to: Routes.session_path(@conn, :delete, @current_user),
+                method: "delete", class: "navbar-item button is-danger" %>
+          <% else %>
+              <%= link "Register",
+                  to: Routes.user_path(@conn, :new),
+                  class: "navbar-item button is-info"  %>
+              <%= link "Log in",
+                  to: Routes.session_path(@conn, :new),
+                  class: "navbar-item button is-primary"  %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
