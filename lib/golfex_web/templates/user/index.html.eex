@@ -1,26 +1,28 @@
-<h1>Listing Users</h1>
+<div class="container">
+  <h1 class="title">Listing Users</h1>
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Username</th>
+  <div class="content">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Username</th>
 
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-<%= for user <- @users do %>
-    <tr>
-      <td><%= user.name %></td>
-      <td><%= user.username %></td>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+    <%= for user <- @users do %>
+        <tr>
+          <td><%= user.name %></td>
+          <td><%= user.username %></td>
 
-      <td>
-        <%= link "Show", to: Routes.user_path(@conn, :show, user) %>
-      </td>
-    </tr>
-<% end %>
-  </tbody>
-</table>
-
-<span><%= link "New User", to: Routes.user_path(@conn, :new) %></span>
+          <td>
+            <%= link "Show", to: Routes.user_path(@conn, :show, user) %>
+          </td>
+        </tr>
+    <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
