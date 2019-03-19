@@ -5,20 +5,39 @@
     </div>
   <% end %>
 
-  <%= label f, :name %>
-  <%= text_input f, :name %>
-  <%= error_tag f, :name %>
+  <div class="field">
+    <label class="label">Full Name</label>
+    <div class="control">
+      <%= text_input f, :name %>
+      <%= error_tag f, :name %>
+    </div>
+  </div>
 
-  <%= label f, :username %>
-  <%= text_input f, :username %>
-  <%= error_tag f, :username %>
+  <div class="field">
+    <label class="label">Username</label>
+    <div class="control">
+      <%= text_input f, :username %>
+      <%= error_tag f, :username %>
+    </div>
+  </div>
 
   <%= inputs_for f, :credential, fn cf -> %>
-    <%= text_input cf, :email, placeholder: "Email" %>
-    <%= error_tag cf, :email %>
+  <div class="field">
+    <label class="label">Email</label>
+    <div class="control">
+      <%= text_input cf, :email, placeholder: "Email" %>
+      <%= error_tag cf, :email %>
+    </div>
+  </div>
 
-    <%= password_input cf, :password, placeholder: "Password" %>
-    <%= error_tag cf, :password %>
+  <div class="field">
+    <label class="label">Password</label>
+    <div class="control">
+      <%= password_input cf, :password, placeholder: "Password" %>
+      <%= error_tag cf, :password %>
+    </div>
+  </div>
+
   <% end %>
 
   <div>

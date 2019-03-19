@@ -1,11 +1,19 @@
-<h1>Login</h1>
+<div class="container">
+  <h1 class="title">Login</h1>
 
-<%= form_for @conn, Routes.session_path(@conn, :create), [as: :session], fn f -> %>
-  <div>
-    <%= text_input f, :email, placeholder: "Email" %>
+  <%= form_for @conn, Routes.session_path(@conn, :create), [as: :session], fn f -> %>
+  <div class="field">
+    <label class="label">Email</label>
+    <div class="control">
+      <%= text_input f, :email, placeholder: "Email" %>
+    </div>
   </div>
-  <div>
-    <%= password_input f, :password, placeholder: "Password" %>
+  <div class="field">
+    <label class="label">Password</label>
+    <div class="control">
+      <%= password_input f, :password, placeholder: "Password" %>
+    </div>
   </div>
-  <%= submit "Log in" %>
-<% end %>
+    <%= submit "Log in" %>
+  <% end %>
+</div>
