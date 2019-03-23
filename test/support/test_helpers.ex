@@ -28,7 +28,7 @@ defmodule Golfex.TestHelpers do
       |> Enum.into(%{
         name: "Namey McNameface",
         active: true,
-        handicap: 10.0
+        handicap: 15.0
       })
       |> Players.create_player()
 

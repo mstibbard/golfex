@@ -16,6 +16,7 @@ defmodule Golfex.Calculator do
   @dec2 "-1.0"
   @dec3 "-2.0"
   @max "45.0"
+  @min "10.0"
 
   def calculate_change(score, type, current_handicap) do
     score
@@ -51,6 +52,9 @@ defmodule Golfex.Calculator do
     cond do
       D.cmp(new_handicap, @max) == :gt ->
         D.sub(@max, current)
+
+      D.cmp(new_handicap, @min) == :lt ->
+        D.sub(@min, current)
 
       true ->
         change

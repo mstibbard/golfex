@@ -61,12 +61,12 @@ defmodule Golfex.ScoresTest do
 
       assert {:ok, %Score{} = score} = Scores.create_score(attrs)
       assert score.score == 36
-      assert score.handicap == D.new("10.0")
+      assert score.handicap == D.new("15.0")
       assert score.handicap_change == D.new("0.3")
-      assert score.new_handicap == D.new("10.3")
+      assert score.new_handicap == D.new("15.3")
 
       player = Players.get_player!(score.player_id)
-      assert player.handicap == D.new("10.3")
+      assert player.handicap == D.new("15.3")
     end
 
     test "create_score/1 with invalid data returns error changeset", prep do
@@ -95,10 +95,10 @@ defmodule Golfex.ScoresTest do
       assert %Score{} = score
       assert score.score == 40
       assert score.handicap_change == D.new("-1.0")
-      assert score.new_handicap == D.new("9.0")
+      assert score.new_handicap == D.new("14.0")
 
       player = Players.get_player!(score.player_id)
-      assert player.handicap == D.new("9.0")
+      assert player.handicap == D.new("14.0")
     end
 
     test "update_score/2 with invalid data returns error changeset", prep do
@@ -125,12 +125,12 @@ defmodule Golfex.ScoresTest do
 
       assert {:ok, score} = Scores.update_score(score, attrs)
       assert %Score{} = score
-      assert score.handicap == D.new("10.0")
+      assert score.handicap == D.new("15.0")
       assert score.handicap_change == D.new("-3.0")
-      assert score.new_handicap == D.new("7.0")
+      assert score.new_handicap == D.new("12.0")
 
       player = Players.get_player!(score.player_id)
-      assert player.handicap == D.new("7.0")
+      assert player.handicap == D.new("12.0")
     end
 
     test "delete_score/1 deletes the score and reverts handicap", prep do
@@ -142,13 +142,13 @@ defmodule Golfex.ScoresTest do
         })
 
       player = Players.get_player!(score.player_id)
-      assert player.handicap == D.new("10.3")
+      assert player.handicap == D.new("15.3")
 
       assert {:ok, %Score{}} = Scores.delete_score(score)
       assert_raise Ecto.NoResultsError, fn -> Scores.get_score!(score.id) end
 
       player = Players.get_player!(score.player_id)
-      assert player.handicap == D.new("10.0")
+      assert player.handicap == D.new("15.0")
     end
 
     test "change_score/1 returns a score changeset", prep do
