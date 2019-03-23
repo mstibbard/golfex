@@ -120,7 +120,7 @@ defmodule Golfex.Scores do
     cond do
       Map.has_key?(changeset.changes, :handicap_change) ->
         cond do
-          changeset.data.handicap_change > D.new("0.0") ->
+          changeset.data.handicap_change >= D.new("0.0") ->
             Ecto.Changeset.put_change(
               changeset,
               :new_handicap,
