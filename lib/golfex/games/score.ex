@@ -17,7 +17,7 @@ defmodule Golfex.Games.Score do
   end
 
   @doc false
-  def changeset(score, attrs) do
+  def changeset(score, attrs \\ %{}) do
     score
     |> cast(attrs, [
       :score,

@@ -45,6 +45,12 @@ defmodule Golfex.Scores do
     |> Repo.update()
   end
 
+  def update_many_scores(scores, game_attrs) do
+    Enum.each(scores, fn x ->
+      recalculate_handicap(x, game_attrs)
+    end)
+  end
+
   def delete_score(%Score{} = score) do
     Players.get_player!(score.player_id)
     |> revert_handicap(D.minus(score.handicap_change))
@@ -158,5 +164,23 @@ defmodule Golfex.Scores do
   defp revert_handicap(player, change) do
     attrs = %{handicap: D.add(player.handicap, change)}
     Players.update_player(player, attrs)
+  end
+
+  defp recalculate_handicap(score, game_attrs) do
+    cond do
+      Map.has_key?(game_attrs, "type") ->
+        %{"type" => type} = game_attrs
+        player = Players.get_player!(score.player_id)
+
+        score
+        |> Score.changeset()
+        |> put_handicap_change(score.score, score.handicap, type)
+        |> put_new_handicap()
+        |> update_player_table(player)
+        |> Repo.update()
+
+      true ->
+        score
+    end
   end
 end

@@ -97,6 +97,83 @@ defmodule GolfexWeb.GameControllerTest do
       assert String.contains?(conn.resp_body, "#{player1.name}</td>\n          <td>20.0")
       assert String.contains?(conn.resp_body, "#{player2.name}</td>\n          <td>10.0")
     end
+
+    test "update game type amends all handicap changes", %{conn: conn, user: user} do
+      game = game_fixture(%{date: ~D[2019-03-11]})
+      player1 = player_fixture(name: "Jo", handicap: 20.0)
+      player2 = player_fixture(name: "Sam", handicap: 10.0)
+      score_fixture(%{game_id: game.id, player_id: player1.id, score: 70})
+      score_fixture(%{game_id: game.id, player_id: player2.id, score: 77})
+
+      # Confirm scores recorded against game
+      conn = get(conn, Routes.game_path(conn, :show, game.id))
+
+      assert String.contains?(
+               conn.resp_body,
+               "#{player1.name}</td>\n            <td>70"
+             )
+
+      assert String.contains?(
+               conn.resp_body,
+               "#{player2.name}</td>\n            <td>77"
+             )
+
+      # Confirm handicaps were amended based on game scores
+      conn =
+        conn
+        |> reset_conn_reassign_user(user)
+        |> get(Routes.player_path(conn, :index))
+
+      assert String.contains?(conn.resp_body, "#{player1.name}</td>\n          <td>18.0")
+      assert String.contains?(conn.resp_body, "#{player2.name}</td>\n          <td>8.0")
+
+      # Update the game to be Stroke
+      updated_game = %{
+        "id" => game.id,
+        "game" => %{"type" => "Stroke"}
+      }
+
+      update_conn =
+        conn
+        |> reset_conn_reassign_user(user)
+        |> put(Routes.game_path(conn, :update, game.id, updated_game))
+
+      assert redirected_to(update_conn) == Routes.game_path(update_conn, :show, game.id)
+      
+      # Confirm handicaps on game page were amended
+      conn =
+        conn
+        |> reset_conn_reassign_user(user)
+        |> get(Routes.game_path(conn, :show, game.id))
+
+      p1_expected = """
+      #{player1.name}</td>
+                  <td>70</td>
+                  <td>20.0</td>
+                  <td>-1.0</td>
+                  <td>19.0</td>
+      """
+
+      p2_expected = """
+      #{player2.name}</td>
+                  <td>77</td>
+                  <td>10.0</td>
+                  <td>0.3</td>
+                  <td>10.3</td>
+      """
+
+      assert String.contains?(conn.resp_body, p1_expected)
+      assert String.contains?(conn.resp_body, p2_expected)
+
+      # Confirm handicaps were amended for Stroke game type
+      conn =
+        conn
+        |> reset_conn_reassign_user(user)
+        |> get(Routes.player_path(conn, :index))
+
+      assert String.contains?(conn.resp_body, "#{player1.name}</td>\n          <td>19.0")
+      assert String.contains?(conn.resp_body, "#{player2.name}</td>\n          <td>10.3")
+    end
   end
 
   defp reset_conn_reassign_user(conn, user) do

@@ -69,6 +69,9 @@ defmodule Golfex.Games do
 
   """
   def update_game(%Game{} = game, attrs) do
+    Scores.get_scores_by_game_id!(game.id)
+    |> Scores.update_many_scores(attrs)
+
     game
     |> Game.changeset(attrs)
     |> Repo.update()
