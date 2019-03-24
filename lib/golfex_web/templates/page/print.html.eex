@@ -1,7 +1,7 @@
 <div id="section-to-print">
 
   <div class="page">
-    <h3>Division 1</h3>
+    <h3><strong>Division 1  (10 - 27)</strong></h3>
     <table class="print" width="50%">
       <thead>
         <tr>
@@ -23,7 +23,7 @@
   <br><br>
 
   <div class="page">
-    <h3>Division 2</h3>
+    <h3><strong>Division 2  (28 - 36)</strong></h3>
     <table class="print" width="50%">
       <thead>
         <tr>
@@ -45,7 +45,7 @@
   <br><br>
 
   <div class="page">
-    <h3>Division 3</h3>
+    <h3><strong>Division 3  (37 - 45)</strong></h3>
     <table class="print" width="50%">
       <thead>
         <tr>
