@@ -18,6 +18,9 @@ defmodule Golfex.Calculator do
   @max "45.0"
   @min "10.0"
 
+  def max, do: D.new(@max)
+  def min, do: D.new(@min)
+
   def calculate_change(score, type, current_handicap) do
     score
     |> use_ruleset(type)
@@ -46,7 +49,7 @@ defmodule Golfex.Calculator do
     end
   end
 
-  defp valid_change(change, current) do
+  def valid_change(change, current) do
     new_handicap = D.add(change, current)
 
     cond do

@@ -133,6 +133,40 @@ defmodule Golfex.ScoresTest do
       assert player.handicap == D.new("12.0")
     end
 
+    test "update_score/2 does not exceed maximum handicap", prep do
+      score =
+        score_fixture(%{
+          game_id: prep.game_id,
+          player_id: prep.player_id,
+          handicap: prep.handicap
+        })
+
+      attrs = %{handicap_change: 50.0}
+
+      assert {:ok, score} = Scores.update_score(score, attrs)
+      assert %Score{} = score
+      assert score.handicap == D.new("15.0")
+      assert score.handicap_change == D.new("30.0")
+      assert score.new_handicap == D.new("45.0")
+    end
+
+    test "update_score/2 does not exceed minimum handicap", prep do
+      score =
+        score_fixture(%{
+          game_id: prep.game_id,
+          player_id: prep.player_id,
+          handicap: prep.handicap
+        })
+
+      attrs = %{handicap_change: -30.0}
+
+      assert {:ok, score} = Scores.update_score(score, attrs)
+      assert %Score{} = score
+      assert score.handicap == D.new("15.0")
+      assert score.handicap_change == D.new("-5.0")
+      assert score.new_handicap == D.new("10.0")
+    end
+
     test "delete_score/1 deletes the score and reverts handicap", prep do
       score =
         score_fixture(%{

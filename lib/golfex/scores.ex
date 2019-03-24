@@ -6,8 +6,9 @@ defmodule Golfex.Scores do
   import Ecto.Query, warn: false
   alias Golfex.Repo
 
+  alias Ecto.Changeset
   alias Decimal, as: D
-  alias Golfex.Calculator
+  alias Golfex.Calculator, as: C
   alias Golfex.Games
   alias Golfex.Games.Score
   alias Golfex.Players
@@ -87,62 +88,83 @@ defmodule Golfex.Scores do
   defp populate_changeset(changeset) do
     %{player: player, game: game} = get_player_and_game(changeset)
 
-    score = Ecto.Changeset.get_change(changeset, :score)
+    score = Changeset.get_change(changeset, :score)
 
     changeset
     |> put_handicap(player.handicap)
     |> put_handicap_change(score, player.handicap, game.type)
-    |> put_new_handicap()
+    |> put_new_handicap(player.handicap)
     |> update_player_table(player)
   end
 
   defp put_handicap(changeset, handicap) do
     cond do
       changeset.data.handicap == nil ->
-        Ecto.Changeset.put_change(changeset, :handicap, handicap)
+        Changeset.put_change(changeset, :handicap, handicap)
 
       true ->
-        Ecto.Changeset.put_change(changeset, :handicap, changeset.data.handicap)
+        Changeset.put_change(changeset, :handicap, changeset.data.handicap)
+    end
+  end
+
+  # Catches manually entered handicap changes that would cause
+  # the new handicap to exceed the min/max limits
+  defp put_handicap_change(
+         changeset = %{changes: %{handicap_change: change}},
+         nil,
+         _handicap,
+         _game_type
+       ) do
+    cond do
+      changeset.data.handicap == nil ->
+        handicap = changeset.changes.handicap
+        Changeset.put_change(changeset, :handicap_change, C.valid_change(change, handicap))
+
+      true ->
+        handicap = changeset.data.handicap
+        Changeset.put_change(changeset, :handicap_change, C.valid_change(change, handicap))
     end
   end
 
   defp put_handicap_change(changeset, nil, _handicap, _game_type), do: changeset
 
   defp put_handicap_change(changeset, score, handicap, game_type) do
-    Ecto.Changeset.put_change(
+    Changeset.put_change(
       changeset,
       :handicap_change,
-      Calculator.calculate_change(score, game_type, handicap)
+      C.calculate_change(score, game_type, handicap)
     )
   end
 
-  defp put_new_handicap(changeset) do
-    cond do
-      Map.has_key?(changeset.changes, :handicap_change) ->
-        cond do
-          changeset.data.handicap_change >= D.new("0.0") ->
-            Ecto.Changeset.put_change(
-              changeset,
-              :new_handicap,
-              D.add(changeset.data.handicap, changeset.changes.handicap_change)
-            )
+  defp put_new_handicap(changeset = %{changes: %{handicap_change: change}}, handicap) do
+    new_handicap = D.add(handicap, change)
 
-          true ->
-            Ecto.Changeset.put_change(
-              changeset,
-              :new_handicap,
-              D.add(changeset.changes.handicap, changeset.changes.handicap_change)
-            )
-        end
+    cond do
+      new_handicap >= C.max() ->
+        Changeset.put_change(changeset, :new_handicap, C.max())
+
+      new_handicap <= C.min() ->
+        Changeset.put_change(changeset, :new_handicap, C.min())
+
+      changeset.data.handicap_change >= D.new("0.0") ->
+        Changeset.put_change(
+          changeset,
+          :new_handicap,
+          D.add(changeset.data.handicap, changeset.changes.handicap_change)
+        )
 
       true ->
-        changeset
+        Changeset.put_change(changeset, :new_handicap, new_handicap)
     end
   end
 
+  defp put_new_handicap(changeset, _handicap) do
+    changeset
+  end
+
   defp get_player_and_game(changeset) do
-    {_, player_id} = Ecto.Changeset.fetch_field(changeset, :player_id)
-    {_, game_id} = Ecto.Changeset.fetch_field(changeset, :game_id)
+    {_, player_id} = Changeset.fetch_field(changeset, :player_id)
+    {_, game_id} = Changeset.fetch_field(changeset, :game_id)
 
     player = Players.get_player!(player_id)
     game = Games.get_game!(game_id)
@@ -175,7 +197,7 @@ defmodule Golfex.Scores do
         score
         |> Score.changeset()
         |> put_handicap_change(score.score, score.handicap, type)
-        |> put_new_handicap()
+        |> put_new_handicap(score.handicap)
         |> update_player_table(player)
         |> Repo.update()
 
