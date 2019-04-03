@@ -4,9 +4,9 @@ defmodule GolfexWeb.PageController do
   alias Golfex.Players
 
   def index(conn, _params) do
-    div1 = Players.get_division(0, 27)
-    div2 = Players.get_division(28, 36)
-    div3 = Players.get_division(37, 45)
+    div1 = Players.get_division(0, 27.4)
+    div2 = Players.get_division(27.5, 36.4)
+    div3 = Players.get_division(36.5, 100)
     render(conn, "index.html", div1: div1, div2: div2, div3: div3)
   end
 
