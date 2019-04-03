@@ -92,47 +92,42 @@ defmodule Golfex.Scores do
 
     changeset
     |> put_handicap(player.handicap)
-    |> put_handicap_change(score, player.handicap, game.type)
+    |> put_change(score, player.handicap, game.type)
     |> put_new_handicap(player.handicap)
     |> update_player_table(player)
   end
 
-  defp put_handicap(changeset, handicap) do
-    cond do
-      changeset.data.handicap == nil ->
-        Changeset.put_change(changeset, :handicap, handicap)
+  defp put_handicap(changeset = %{data: %{handicap: hc}}, handicap) when hc == nil do
+    Changeset.put_change(changeset, :handicap, handicap)
+  end
 
-      true ->
-        Changeset.put_change(changeset, :handicap, changeset.data.handicap)
-    end
+  defp put_handicap(changeset = %{data: %{handicap: hc}}, _handicap) do
+    Changeset.put_change(changeset, :handicap, hc)
   end
 
   # Catches manually entered handicap changes that would cause
   # the new handicap to exceed the min/max limits
-  defp put_handicap_change(
-         changeset = %{changes: %{handicap_change: change}},
-         nil,
-         _handicap,
-         _game_type
-       ) do
-    cond do
-      changeset.data.handicap == nil ->
-        handicap = changeset.changes.handicap
-        Changeset.put_change(changeset, :handicap_change, C.valid_change(change, handicap))
-
-      true ->
-        handicap = changeset.data.handicap
-        Changeset.put_change(changeset, :handicap_change, C.valid_change(change, handicap))
-    end
-  end
-
-  defp put_handicap_change(changeset, nil, _handicap, _game_type), do: changeset
-
-  defp put_handicap_change(changeset, score, handicap, game_type) do
+  defp put_change(changeset = %{data: %{handicap: hc}}, nil, _handicap, _type) when hc == nil do
     Changeset.put_change(
       changeset,
       :handicap_change,
-      C.calculate_change(score, game_type, handicap)
+      C.valid_change(changeset.changes.handicap_change, changeset.changes.handicap)
+    )
+  end
+
+  defp put_change(changeset, nil, _handicap, _type) do
+    Changeset.put_change(
+      changeset,
+      :handicap_change,
+      C.valid_change(changeset.changes.handicap_change, changeset.data.handicap)
+    )
+  end
+
+  defp put_change(changeset, score, handicap, type) do
+    Changeset.put_change(
+      changeset,
+      :handicap_change,
+      C.calculate_change(score, type, handicap)
     )
   end
 
@@ -150,7 +145,7 @@ defmodule Golfex.Scores do
         Changeset.put_change(
           changeset,
           :new_handicap,
-          D.add(changeset.data.handicap, changeset.changes.handicap_change)
+          D.add(changeset.data.handicap, change)
         )
 
       true ->
@@ -196,7 +191,7 @@ defmodule Golfex.Scores do
 
         score
         |> Score.changeset()
-        |> put_handicap_change(score.score, score.handicap, type)
+        |> put_change(score.score, score.handicap, type)
         |> put_new_handicap(score.handicap)
         |> update_player_table(player)
         |> Repo.update()
