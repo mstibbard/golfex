@@ -101,9 +101,7 @@ defmodule Golfex.Scores do
     Changeset.put_change(changeset, :handicap, handicap)
   end
 
-  defp put_handicap(changeset = %{data: %{handicap: hc}}, _handicap) do
-    Changeset.put_change(changeset, :handicap, hc)
-  end
+  defp put_handicap(changeset, _handicap), do: changeset
 
   # Catches manually entered handicap changes that would cause
   # the new handicap to exceed the min/max limits
@@ -116,11 +114,15 @@ defmodule Golfex.Scores do
   end
 
   defp put_change(changeset, nil, _handicap, _type) do
-    Changeset.put_change(
-      changeset,
-      :handicap_change,
-      C.valid_change(changeset.changes.handicap_change, changeset.data.handicap)
-    )
+    if Map.has_key?(changeset.changes, :handicap_change) do
+      Changeset.put_change(
+        changeset,
+        :handicap_change,
+        C.valid_change(changeset.changes.handicap_change, changeset.data.handicap)
+      )
+    else
+      changeset
+    end
   end
 
   defp put_change(changeset, score, handicap, type) do
