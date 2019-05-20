@@ -65,12 +65,12 @@ defmodule GolfexWeb.GameControllerTest do
 
       assert String.contains?(
                conn.resp_body,
-               "#{player1.name}</td>\n            <td>40"
+               "#{player1.name}</td>\r\n            <td>40"
              )
 
       assert String.contains?(
                conn.resp_body,
-               "#{player2.name}</td>\n            <td>37"
+               "#{player2.name}</td>\r\n            <td>37"
              )
 
       # Confirm handicaps were amended based on game scores
@@ -79,8 +79,8 @@ defmodule GolfexWeb.GameControllerTest do
         |> reset_conn_reassign_user(user)
         |> get(Routes.player_path(conn, :index))
 
-      assert String.contains?(conn.resp_body, "#{player1.name}</td>\n          <td>19.0")
-      assert String.contains?(conn.resp_body, "#{player2.name}</td>\n          <td>14.5")
+      assert String.contains?(conn.resp_body, "#{player1.name}</td>\r\n          <td>19.0")
+      assert String.contains?(conn.resp_body, "#{player2.name}</td>\r\n          <td>14.5")
 
       # Delete the game
       conn =
@@ -94,8 +94,8 @@ defmodule GolfexWeb.GameControllerTest do
         |> reset_conn_reassign_user(user)
         |> get(Routes.player_path(conn, :index))
 
-      assert String.contains?(conn.resp_body, "#{player1.name}</td>\n          <td>20.0")
-      assert String.contains?(conn.resp_body, "#{player2.name}</td>\n          <td>15.0")
+      assert String.contains?(conn.resp_body, "#{player1.name}</td>\r\n          <td>20.0")
+      assert String.contains?(conn.resp_body, "#{player2.name}</td>\r\n          <td>15.0")
     end
 
     test "update game type amends all handicap changes", %{conn: conn, user: user} do
@@ -110,12 +110,12 @@ defmodule GolfexWeb.GameControllerTest do
 
       assert String.contains?(
                conn.resp_body,
-               "#{player1.name}</td>\n            <td>70"
+               "#{player1.name}</td>\r\n            <td>70"
              )
 
       assert String.contains?(
                conn.resp_body,
-               "#{player2.name}</td>\n            <td>77"
+               "#{player2.name}</td>\r\n            <td>77"
              )
 
       # Confirm handicaps were amended based on game scores
@@ -124,8 +124,8 @@ defmodule GolfexWeb.GameControllerTest do
         |> reset_conn_reassign_user(user)
         |> get(Routes.player_path(conn, :index))
 
-      assert String.contains?(conn.resp_body, "#{player1.name}</td>\n          <td>18.0")
-      assert String.contains?(conn.resp_body, "#{player2.name}</td>\n          <td>13.0")
+      assert String.contains?(conn.resp_body, "#{player1.name}</td>\r\n          <td>18.0")
+      assert String.contains?(conn.resp_body, "#{player2.name}</td>\r\n          <td>13.0")
 
       # Update the game to be Stroke
       updated_game = %{
@@ -147,19 +147,19 @@ defmodule GolfexWeb.GameControllerTest do
         |> get(Routes.game_path(conn, :show, game.id))
 
       p1_expected = """
-      #{player1.name}</td>
-                  <td>70</td>
-                  <td>20.0</td>
-                  <td>-1.0</td>
-                  <td>19.0</td>
+      #{player1.name}</td>\r
+                  <td>70</td>\r
+                  <td>20.0</td>\r
+                  <td>-1.0</td>\r
+                  <td>19.0</td>\r
       """
 
       p2_expected = """
-      #{player2.name}</td>
-                  <td>77</td>
-                  <td>15.0</td>
-                  <td>0.3</td>
-                  <td>15.3</td>
+      #{player2.name}</td>\r
+                  <td>77</td>\r
+                  <td>15.0</td>\r
+                  <td>0.3</td>\r
+                  <td>15.3</td>\r
       """
 
       assert String.contains?(conn.resp_body, p1_expected)
@@ -171,8 +171,8 @@ defmodule GolfexWeb.GameControllerTest do
         |> reset_conn_reassign_user(user)
         |> get(Routes.player_path(conn, :index))
 
-      assert String.contains?(conn.resp_body, "#{player1.name}</td>\n          <td>19.0")
-      assert String.contains?(conn.resp_body, "#{player2.name}</td>\n          <td>15.3")
+      assert String.contains?(conn.resp_body, "#{player1.name}</td>\r\n          <td>19.0")
+      assert String.contains?(conn.resp_body, "#{player2.name}</td>\r\n          <td>15.3")
     end
   end
 

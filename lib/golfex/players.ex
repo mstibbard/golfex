@@ -63,7 +63,6 @@ defmodule Golfex.Players do
     |> Player.active_players()
     |> Player.handicap_within_range(min, max)
     |> Repo.all()
-    |> round_handicaps()
     |> Enum.sort_by(& &1.name)
   end
 
@@ -83,12 +82,6 @@ defmodule Golfex.Players do
     list_active_players()
     |> produce_stableford_map(min, max, [])
     |> Enum.sort_by(& &1.stableford, &>=/2)
-  end
-
-  defp round_handicaps(list) do
-    Enum.reduce(list, [], fn x, acc ->
-      [%{handicap: D.round(x.handicap, 0, :half_up), name: x.name} | acc]
-    end)
   end
 
   defp produce_attendance_map([], _min, _max, acc), do: acc

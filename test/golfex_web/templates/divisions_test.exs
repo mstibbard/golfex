@@ -14,8 +14,8 @@ defmodule GolfexWeb.DivisionsTest do
       p2 = player_fixture(%{name: "Hum", handicap: 31.4})
 
       conn = get(conn, Routes.page_path(conn, :index))
-      assert String.contains?(conn.resp_body, "#{p1.name}</td>\n            <td>32")
-      assert String.contains?(conn.resp_body, "#{p2.name}</td>\n            <td>31")
+      assert String.contains?(conn.resp_body, "#{p1.name}</td>\r\n            <td>32")
+      assert String.contains?(conn.resp_body, "#{p2.name}</td>\r\n            <td>31")
     end
   end
 end

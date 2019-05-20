@@ -2,11 +2,13 @@ defmodule Golfex.Players.Player do
   use Ecto.Schema
   import Ecto.Changeset
   import Ecto.Query
+  alias Decimal, as: D
 
   schema "players" do
     field(:name, :string)
     field(:active, :boolean)
     field(:handicap, :decimal)
+    field(:rounded_handicap, :integer)
 
     has_many(:score, Golfex.Games.Score)
 
@@ -17,6 +19,7 @@ defmodule Golfex.Players.Player do
     player
     |> cast(attrs, [:name, :active, :handicap])
     |> validate_required([:name, :active, :handicap])
+    |> round_handicap()
   end
 
   def active_players(query) do
@@ -47,7 +50,20 @@ defmodule Golfex.Players.Player do
 
   def handicap_within_range(query, min, max) do
     from(p in query,
-      where: p.handicap >= ^min and p.handicap <= ^max
+      where: p.rounded_handicap >= ^min and p.rounded_handicap <= ^max
     )
+  end
+
+  defp round_handicap(changeset) do
+    case fetch_change(changeset, :handicap) do
+      {:ok, new_handicap} -> put_change(changeset, :rounded_handicap, rounding(new_handicap))
+      :error -> changeset
+    end
+  end
+
+  defp rounding(dec) do
+    dec
+    |> D.round()
+    |> D.to_integer()
   end
 end
