@@ -11,10 +11,10 @@ defmodule Golfex.Calculator do
   values to require changing in future - and will reduce
   the likelihood of me making mistakes!!
   """
-  @inc "0.25"
+  @inc "0.30"
   @dec1 "-0.50"
   @dec2 "-1.00"
-  @dec3 "-1.00"
+  @dec3 "-2.00"
   @max "45.00"
   @min "10.00"
 
