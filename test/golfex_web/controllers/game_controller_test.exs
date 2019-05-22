@@ -1,6 +1,9 @@
 defmodule GolfexWeb.GameControllerTest do
   use GolfexWeb.ConnCase
 
+  alias Golfex.Calculator, as: C
+  alias Decimal, as: D
+
   @create_attrs %{date: ~D[2010-04-17], type: "some type"}
   @invalid_attrs %{date: nil, type: nil}
 
@@ -79,8 +82,8 @@ defmodule GolfexWeb.GameControllerTest do
         |> reset_conn_reassign_user(user)
         |> get(Routes.player_path(conn, :index))
 
-      assert String.contains?(conn.resp_body, "#{player1.name}</td>\r\n          <td>19.0")
-      assert String.contains?(conn.resp_body, "#{player2.name}</td>\r\n          <td>14.5")
+      assert String.contains?(conn.resp_body, "#{player1.name}</td>\r\n          <td>#{D.add("20.0", C.dec2())}")
+      assert String.contains?(conn.resp_body, "#{player2.name}</td>\r\n          <td>#{D.add("15.0", C.dec1())}")
 
       # Delete the game
       conn =
@@ -124,8 +127,8 @@ defmodule GolfexWeb.GameControllerTest do
         |> reset_conn_reassign_user(user)
         |> get(Routes.player_path(conn, :index))
 
-      assert String.contains?(conn.resp_body, "#{player1.name}</td>\r\n          <td>18.0")
-      assert String.contains?(conn.resp_body, "#{player2.name}</td>\r\n          <td>13.0")
+      assert String.contains?(conn.resp_body, "#{player1.name}</td>\r\n          <td>#{D.add("20.0", C.dec3())}")
+      assert String.contains?(conn.resp_body, "#{player2.name}</td>\r\n          <td>#{D.add("15.0", C.dec3())}")
 
       # Update the game to be Stroke
       updated_game = %{
@@ -150,16 +153,16 @@ defmodule GolfexWeb.GameControllerTest do
       #{player1.name}</td>\r
                   <td>70</td>\r
                   <td>20.0</td>\r
-                  <td>-1.0</td>\r
-                  <td>19.0</td>\r
+                  <td>#{C.dec2()}</td>\r
+                  <td>#{D.add("20.0", C.dec2())}</td>\r
       """
 
       p2_expected = """
       #{player2.name}</td>\r
                   <td>77</td>\r
                   <td>15.0</td>\r
-                  <td>0.3</td>\r
-                  <td>15.3</td>\r
+                  <td>#{C.inc()}</td>\r
+                  <td>#{D.add("15.0", C.inc())}</td>\r
       """
 
       assert String.contains?(conn.resp_body, p1_expected)
@@ -171,8 +174,8 @@ defmodule GolfexWeb.GameControllerTest do
         |> reset_conn_reassign_user(user)
         |> get(Routes.player_path(conn, :index))
 
-      assert String.contains?(conn.resp_body, "#{player1.name}</td>\r\n          <td>19.0")
-      assert String.contains?(conn.resp_body, "#{player2.name}</td>\r\n          <td>15.3")
+      assert String.contains?(conn.resp_body, "#{player1.name}</td>\r\n          <td>#{D.add("20.0", C.dec2())}")
+      assert String.contains?(conn.resp_body, "#{player2.name}</td>\r\n          <td>#{D.add("15.0", C.inc())}")
     end
   end
 

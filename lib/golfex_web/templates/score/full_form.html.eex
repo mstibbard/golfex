@@ -19,7 +19,7 @@
 
   <div class="form-group">
     <%= label f, :handicap_change, class: "label" %>
-    <%= number_input f, :handicap_change, placeholder: 0.0, step: 0.1 %>
+    <%= number_input f, :handicap_change, placeholder: 0.0, step: 0.01 %>
     <%= error_tag f, :handicap_change %>
   </div><br>
 
