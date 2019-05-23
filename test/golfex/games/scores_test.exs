@@ -198,5 +198,30 @@ defmodule Golfex.ScoresTest do
 
       assert %Ecto.Changeset{} = Scores.change_score(score)
     end
+
+    test "create_score/1 with valid fun match data creates a score" do
+      # Setting up unique game and player details for this test
+      %{id: game_id} = game_fixture(%{type: "Fun"})
+      %{id: player_id, handicap: handicap} = player_fixture(%{handicap: D.new("29.9")})
+      
+      attrs = %{
+        score: 36,
+        handicap: handicap,
+        handicap_change: 0.0,
+        new_handicap: 0,
+        points: 1,
+        player_id: player_id,
+        game_id: game_id
+      }
+
+      assert {:ok, %Score{} = score} = Scores.create_score(attrs)
+      assert score.score == 36
+      assert score.handicap == handicap
+      assert score.handicap_change == D.new("0.0")
+      assert score.new_handicap == handicap
+
+      player = Players.get_player!(score.player_id)
+      assert player.handicap == handicap
+    end
   end
 end

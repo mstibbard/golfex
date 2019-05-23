@@ -137,10 +137,10 @@ defmodule Golfex.Scores do
     new_handicap = D.add(handicap, change)
 
     cond do
-      new_handicap >= C.max() ->
+      D.cmp(new_handicap, C.max()) == :gt ->
         Changeset.put_change(changeset, :new_handicap, C.max())
 
-      new_handicap <= C.min() ->
+      D.cmp(new_handicap, C.min()) == :lt ->
         Changeset.put_change(changeset, :new_handicap, C.min())
 
       changeset.data.handicap_change >= D.new("0.0") ->
