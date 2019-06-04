@@ -45,7 +45,7 @@
   <br><br>
 
   <div class="page">
-    <h3><strong>Division 3  (<%= @headers.d3_min %> - 45)</strong></h3>
+    <h3><strong>Division 3  (<%= @headers.d3 %> - 45)</strong></h3>
     <table class="print" width="50%">
       <thead>
         <tr>
