@@ -4,7 +4,7 @@
       <%= link "PRINT DIVISIONS", to: Routes.page_path(@conn, :print) %>
       <br><br>
 
-      <%= render "divisions.html", conn: @conn, div1: @div1, div2: @div2, div3: @div3 %>
+      <%= render "divisions.html", conn: @conn, div1: @div1, div2: @div2, div3: @div3, headers: @headers %>
 
   <% else %>
     <section class="section">

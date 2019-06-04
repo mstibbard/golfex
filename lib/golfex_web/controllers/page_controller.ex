@@ -3,19 +3,27 @@ defmodule GolfexWeb.PageController do
 
   alias Golfex.Players
 
+  @div1_max 32
+  @div2_min 33
+  @div2_max 39
+  @div3_min 40
+
   def index(conn, _params) do
-    div1 = Players.get_division(0, 27)
-    div2 = Players.get_division(28, 36)
-    div3 = Players.get_division(37, 100)
-    render(conn, "index.html", div1: div1, div2: div2, div3: div3)
+    div1 = Players.get_division(0, @div1_max)
+    div2 = Players.get_division(@div2_min, @div2_max)
+    div3 = Players.get_division(@div3_min, 100)
+    headers = %{d1: @div1_max, d2_min: @div2_min, d2_max: @div2_max, d3: @div3_min}
+
+    render(conn, "index.html", div1: div1, div2: div2, div3: div3, headers: headers)
   end
 
   def print(conn, _params) do
-    div1 = Players.get_division(0, 27)
-    div2 = Players.get_division(28, 36)
-    div3 = Players.get_division(37, 100)
+    div1 = Players.get_division(0, @div1_max)
+    div2 = Players.get_division(@div2_min, @div2_max)
+    div3 = Players.get_division(@div3_min, 100)
+    headers = %{d1: @div1_max, d2_min: @div2_min, d2_max: @div2_max, d3: @div3_min}
 
-    render(conn, "print.html", div1: div1, div2: div2, div3: div3)
+    render(conn, "print.html", div1: div1, div2: div2, div3: div3, headers: headers)
   end
 
   def awards(conn, _params) do
