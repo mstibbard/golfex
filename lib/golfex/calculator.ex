@@ -10,11 +10,13 @@ defmodule Golfex.Calculator do
   This has only been memoized as this is likely the only
   values to require changing in future - and will reduce
   the likelihood of me making mistakes!!
+
+  NOTE: IF BELOW RETURN TO NEGATIVE VALUES, UNCOMMENT CALCULATOR TESTS
   """
-  @inc "0.30"
-  @dec1 "-0.50"
-  @dec2 "-1.00"
-  @dec3 "-2.00"
+  @inc "0.25"
+  @dec1 "0.25"
+  @dec2 "0.25"
+  @dec3 "0.25"
   @max "45.00"
   @min "10.00"
 

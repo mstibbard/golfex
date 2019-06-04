@@ -17,7 +17,7 @@ defmodule Golfex.ScoresTest do
       player_id: 0,
       game_id: 0
     }
-    @update_attrs %{score: 40, handicap_change: 0.0, new_handicap: 0.0}
+    @update_attrs %{score: 40, handicap_change: 0.0}
     @invalid_attrs %{
       score: -30,
       handicap_change: nil,
