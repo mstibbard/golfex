@@ -92,8 +92,13 @@ defmodule Golfex.PlayersTest do
       score_fixture(%{game_id: game6.id, player_id: player2.id, score: 38})
       score_fixture(%{game_id: game7.id, player_id: player2.id, score: 39})
 
-      player1_stableford = %{name: player1.name, id: player1.id, stableford: D.new("39")}
-      player2_stableford = %{name: player2.name, id: player2.id, stableford: D.new("38")}
+      # AVERAGE RESULTS
+      # player1_stableford = %{name: player1.name, id: player1.id, stableford: D.new("39")}
+      # player2_stableford = %{name: player2.name, id: player2.id, stableford: D.new("38")}
+
+      # AGGREGATE RESULTS
+      player1_stableford = %{name: player1.name, id: player1.id, stableford: 231}
+      player2_stableford = %{name: player2.name, id: player2.id, stableford: 228}
 
       assert Enum.member?(Players.get_stableford(2019), player1_stableford)
       assert Enum.member?(Players.get_stableford(2019), player2_stableford)

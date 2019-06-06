@@ -81,8 +81,9 @@ defmodule Golfex.Scores do
     |> Enum.reverse()
     |> Enum.slice(1..6)
     |> Enum.reduce(0, fn x, acc -> x + acc end)
-    |> D.div(6)
-    |> D.round(0, :half_up)
+    # Below commented out to return to an aggregate of top 6 instead of average
+    # |> D.div(6)
+    # |> D.round(0, :half_up)
   end
 
   defp populate_changeset(changeset) do
