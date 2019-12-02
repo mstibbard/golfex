@@ -78,8 +78,7 @@ defmodule Golfex.Scores do
     Score
     |> Score.stableford_within_date_range(player_id, min, max)
     |> Repo.all()
-    |> Enum.reverse()
-    |> Enum.slice(1..6)
+    |> Enum.slice(0..5)
     |> Enum.reduce(0, fn x, acc -> x + acc end)
     # Below commented out to return to an aggregate of top 6 instead of average
     # |> D.div(6)
