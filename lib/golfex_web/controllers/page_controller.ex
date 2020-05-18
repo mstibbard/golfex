@@ -5,8 +5,8 @@ defmodule GolfexWeb.PageController do
 
   @div1_max 32
   @div2_min 33
-  @div2_max 39
-  @div3_min 40
+  @div2_max 41
+  @div3_min 42
 
   def index(conn, _params) do
     div1 = Players.get_division(0, @div1_max)
