@@ -4,7 +4,6 @@ defmodule Golfex.Players do
   """
   alias Golfex.Repo
   alias Golfex.Players.Player
-  alias Decimal, as: D
   alias Golfex.Scores
 
   def list_players() do
@@ -67,8 +66,8 @@ defmodule Golfex.Players do
   end
 
   def get_attendance(year) do
-    {:ok, min} = Date.new(year, 1, 1)
-    {:ok, max} = Date.new(year, 12, 31)
+    {:ok, min} = Date.new(year - 1, 7, 1)
+    {:ok, max} = Date.new(year, 06, 30)
 
     list_active_players()
     |> produce_attendance_map(min, max, [])
