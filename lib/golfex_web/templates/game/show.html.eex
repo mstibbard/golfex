@@ -43,14 +43,7 @@
 
           <%= for score <- @scores do %>
           <tr>
-            <td><%= score.player.name %></td>
-            <td><%= score.score %></td>
-            <td><%= score.handicap %></td>
-            <td><%= score.handicap_change %></td>
-            <td><%= score.new_handicap %></td>
-            <td><%= score.points %></td>
-            <td><%= link "Show", to: Routes.score_path(@conn, :show, score) %></td>
-            <td><%= link "Edit", to: Routes.score_path(@conn, :edit, score) %></td>
+            <td><%= score.player.name %></td><td><%= score.score %></td><td><%= score.handicap %></td><td><%= score.handicap_change %></td><td><%= score.new_handicap %></td><td><%= score.points %></td><td><%= link "Show", to: Routes.score_path(@conn, :show, score) %></td><td><%= link "Edit", to: Routes.score_path(@conn, :edit, score) %></td>
             <td>
               <%= link "Delete",
                   to: Routes.score_path(@conn, :delete, score),
@@ -62,7 +55,7 @@
           </tr>
           <% end %>
         </tbody>
-      </table>  
+      </table>
     </section>
   </div>
 

@@ -12,8 +12,7 @@
       <tbody>
         <%= for player <- @div1 do %>
           <tr>
-            <td><%= player.name %></td>
-            <td><%= player.rounded_handicap %></td>
+            <td><%= player.name %></td><td><%= player.rounded_handicap %></td>
           </tr>
         <% end %>
       </tbody>
@@ -32,8 +31,7 @@
       <tbody>
         <%= for player <- @div2 do %>
           <tr>
-            <td><%= player.name %></td>
-            <td><%= player.rounded_handicap %></td>
+            <td><%= player.name %></td><td><%= player.rounded_handicap %></td>
           </tr>
         <% end %>
       </tbody>
@@ -52,8 +50,7 @@
       <tbody>
         <%= for player <- @div3 do %>
           <tr>
-            <td><%= player.name %></td>
-            <td><%= player.rounded_handicap %></td>
+            <td><%= player.name %></td><td><%= player.rounded_handicap %></td>
           </tr>
         <% end %>
       </tbody>

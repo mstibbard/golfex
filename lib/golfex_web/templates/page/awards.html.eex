@@ -17,8 +17,7 @@
         <tbody>
         <%= for player <- @attendance do %>
           <tr>
-            <td><%= player.name %></td>
-            <td><%= player.points %></td>
+            <td><%= player.name %></td><td><%= player.points %></td>
           </tr>
         <% end %>
         </tbody>
@@ -39,8 +38,7 @@
         <tbody>
           <%= for player <- @stableford do %>
           <tr>
-            <td><%= player.name %></td>
-            <td><%= player.stableford %></td>
+            <td><%= player.name %></td><td><%= player.stableford %></td>
           </tr>
           <% end %>
         </tbody>

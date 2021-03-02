@@ -17,10 +17,7 @@
       </thead>
       <%= for player <- @players do %>
         <tr>
-          <td><%= player.name %></td>
-          <td><%= player.handicap %></td>
-          <td><%= player.rounded_handicap %></td>
-          <td><%= player.active %></td>
+          <td><%= player.name %></td><td><%= player.handicap %></td><td><%= player.rounded_handicap %></td><td><%= player.active %></td>
           <td><%= link "Show", to: Routes.player_path(@conn, :show, player.id) %></td>
           <td><%= link "Edit", to: Routes.player_path(@conn, :edit, player.id) %></td>
       <% end %>

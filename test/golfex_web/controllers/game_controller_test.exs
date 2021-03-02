@@ -68,12 +68,12 @@ defmodule GolfexWeb.GameControllerTest do
 
       assert String.contains?(
                conn.resp_body,
-               "#{player1.name}</td>\r\n            <td>40"
+               "#{player1.name}</td><td>40"
              )
 
       assert String.contains?(
                conn.resp_body,
-               "#{player2.name}</td>\r\n            <td>37"
+               "#{player2.name}</td><td>37"
              )
 
       # Confirm handicaps were amended based on game scores
@@ -82,8 +82,8 @@ defmodule GolfexWeb.GameControllerTest do
         |> reset_conn_reassign_user(user)
         |> get(Routes.player_path(conn, :index))
 
-      assert String.contains?(conn.resp_body, "#{player1.name}</td>\r\n          <td>#{D.add("20.0", C.dec2())}")
-      assert String.contains?(conn.resp_body, "#{player2.name}</td>\r\n          <td>#{D.add("15.0", C.dec1())}")
+      assert String.contains?(conn.resp_body, "#{player1.name}</td><td>#{D.add("20.0", C.dec2())}")
+      assert String.contains?(conn.resp_body, "#{player2.name}</td><td>#{D.add("15.0", C.dec1())}")
 
       # Delete the game
       conn =
@@ -97,8 +97,8 @@ defmodule GolfexWeb.GameControllerTest do
         |> reset_conn_reassign_user(user)
         |> get(Routes.player_path(conn, :index))
 
-      assert String.contains?(conn.resp_body, "#{player1.name}</td>\r\n          <td>20.0")
-      assert String.contains?(conn.resp_body, "#{player2.name}</td>\r\n          <td>15.0")
+      assert String.contains?(conn.resp_body, "#{player1.name}</td><td>20.0")
+      assert String.contains?(conn.resp_body, "#{player2.name}</td><td>15.0")
     end
 
     test "update game type amends all handicap changes", %{conn: conn, user: user} do
@@ -113,12 +113,12 @@ defmodule GolfexWeb.GameControllerTest do
 
       assert String.contains?(
                conn.resp_body,
-               "#{player1.name}</td>\r\n            <td>70"
+               "#{player1.name}</td><td>70"
              )
 
       assert String.contains?(
                conn.resp_body,
-               "#{player2.name}</td>\r\n            <td>77"
+               "#{player2.name}</td><td>77"
              )
 
       # Confirm handicaps were amended based on game scores
@@ -127,8 +127,8 @@ defmodule GolfexWeb.GameControllerTest do
         |> reset_conn_reassign_user(user)
         |> get(Routes.player_path(conn, :index))
 
-      assert String.contains?(conn.resp_body, "#{player1.name}</td>\r\n          <td>#{D.add("20.0", C.dec3())}")
-      assert String.contains?(conn.resp_body, "#{player2.name}</td>\r\n          <td>#{D.add("15.0", C.dec3())}")
+      assert String.contains?(conn.resp_body, "#{player1.name}</td><td>#{D.add("20.0", C.dec3())}")
+      assert String.contains?(conn.resp_body, "#{player2.name}</td><td>#{D.add("15.0", C.dec3())}")
 
       # Update the game to be Stroke
       updated_game = %{
@@ -142,28 +142,16 @@ defmodule GolfexWeb.GameControllerTest do
         |> put(Routes.game_path(conn, :update, game.id, updated_game))
 
       assert redirected_to(update_conn) == Routes.game_path(update_conn, :show, game.id)
-      
+
       # Confirm handicaps on game page were amended
       conn =
         conn
         |> reset_conn_reassign_user(user)
         |> get(Routes.game_path(conn, :show, game.id))
 
-      p1_expected = """
-      #{player1.name}</td>\r
-                  <td>70</td>\r
-                  <td>20.0</td>\r
-                  <td>#{C.dec2()}</td>\r
-                  <td>#{D.add("20.0", C.dec2())}</td>\r
-      """
+      p1_expected = "#{player1.name}</td><td>70</td><td>20.0</td><td>#{C.dec2()}</td><td>#{D.add("20.0", C.dec2())}</td>"
 
-      p2_expected = """
-      #{player2.name}</td>\r
-                  <td>77</td>\r
-                  <td>15.0</td>\r
-                  <td>#{C.inc()}</td>\r
-                  <td>#{D.add("15.0", C.inc())}</td>\r
-      """
+      p2_expected = "#{player2.name}</td><td>77</td><td>15.0</td><td>#{C.inc()}</td><td>#{D.add("15.0", C.inc())}</td>"
 
       assert String.contains?(conn.resp_body, p1_expected)
       assert String.contains?(conn.resp_body, p2_expected)
@@ -174,8 +162,8 @@ defmodule GolfexWeb.GameControllerTest do
         |> reset_conn_reassign_user(user)
         |> get(Routes.player_path(conn, :index))
 
-      assert String.contains?(conn.resp_body, "#{player1.name}</td>\r\n          <td>#{D.add("20.0", C.dec2())}")
-      assert String.contains?(conn.resp_body, "#{player2.name}</td>\r\n          <td>#{D.add("15.0", C.inc())}")
+      assert String.contains?(conn.resp_body, "#{player1.name}</td><td>#{D.add("20.0", C.dec2())}")
+      assert String.contains?(conn.resp_body, "#{player2.name}</td><td>#{D.add("15.0", C.inc())}")
     end
   end
 
